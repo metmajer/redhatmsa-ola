@@ -1,0 +1,12 @@
+FROM metmajer/redhatmsa-ola:latest
+
+ENV HAWKULAR_APM_VERSION 0.14.4.Final
+
+USER root
+
+ADD https://github.com/hawkular/hawkular-apm/releases/download/$HAWKULAR_APM_VERSION/hawkular-apm-agent.jar /deployments/
+RUN chmod -R 644 /deployments/hawkular-apm-agent.jar
+
+USER jboss
+
+ENV JAVA_OPTIONS "${JAVA_OPTIONS} -javaagent:/deployments/hawkular-apm-agent.jar"
